@@ -202,11 +202,13 @@ __cilkrts_pedigree *__cilkrts_get_tls_pedigree_leaf(int create_new)
 	__cilkrts_set_tls_pedigree_leaf(pedigree_tls);
         
         pedigree_tls[0].rank = 0;
+        pedigree_tls[0].sync = 0;
         pedigree_tls[0].parent = &pedigree_tls[1];
 
         // Create Y, whose rank begins as the global counter value.
         pedigree_tls[1].rank =
             __sync_add_and_fetch(&__cilkrts_global_pedigree_tls_counter, 1);
+        pedigree_tls[1].sync = 0;
 
         pedigree_tls[1].parent = NULL;
         CILK_ASSERT(pedigree_tls[1].rank != -1);

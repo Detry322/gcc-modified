@@ -119,6 +119,7 @@ inline void update_pedigree_on_leave_frame(__cilkrts_worker *w,
     if (CILK_FRAME_VERSION_VALUE(sf->flags) >= 1)
     {
 	w->pedigree.rank = sf->spawn_helper_pedigree.rank + 1;
+	w->pedigree.sync = sf->spawn_helper_pedigree.sync;
 	w->pedigree.parent = sf->spawn_helper_pedigree.parent;
     }
 }

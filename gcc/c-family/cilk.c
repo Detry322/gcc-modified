@@ -884,20 +884,29 @@ cilk_install_body_pedigree_operations (tree frame_ptr)
 
   tree pedigree = cilk_arrow (frame_ptr, CILK_TI_FRAME_PEDIGREE, 0);
   tree pedigree_rank = cilk_dot (pedigree, CILK_TI_PEDIGREE_RANK, 0);
+  tree pedigree_sync = cilk_dot (pedigree, CILK_TI_PEDIGREE_SYNC, 0);
   tree parent_pedigree = cilk_dot (pedigree, CILK_TI_PEDIGREE_PARENT, 0);
   tree pedigree_parent = cilk_arrow (parent, CILK_TI_FRAME_PEDIGREE, 0);
   tree pedigree_parent_rank = cilk_dot (pedigree_parent, 
 					CILK_TI_PEDIGREE_RANK, 0);
+  tree pedigree_parent_sync = cilk_dot (pedigree_parent, 
+					CILK_TI_PEDIGREE_SYNC, 0);
   tree pedigree_parent_parent = cilk_dot (pedigree_parent, 
 				     CILK_TI_PEDIGREE_PARENT, 0);
   tree worker_pedigree = cilk_arrow (worker, CILK_TI_WORKER_PEDIGREE, 1);
   tree w_pedigree_rank = cilk_dot (worker_pedigree, CILK_TI_PEDIGREE_RANK, 0);
+  tree w_pedigree_sync = cilk_dot (worker_pedigree, CILK_TI_PEDIGREE_SYNC, 0);
   tree w_pedigree_parent = cilk_dot (worker_pedigree, 
 				     CILK_TI_PEDIGREE_PARENT, 0);
 
   /* sf.pedigree.rank = worker->pedigree.rank.  */
   tree exp1 = build2 (MODIFY_EXPR, void_type_node, pedigree_rank,
 		     w_pedigree_rank);
+  append_to_statement_list (exp1, &body_list);
+
+  /* sf.pedigree.sync = worker->pedigree.sync.  */
+  exp1 = build2 (MODIFY_EXPR, void_type_node, pedigree_sync,
+		     w_pedigree_sync);
   append_to_statement_list (exp1, &body_list);
 
   /* sf.pedigree.parent = worker->pedigree.parent.  */
@@ -910,6 +919,11 @@ cilk_install_body_pedigree_operations (tree frame_ptr)
 		 w_pedigree_rank);
   append_to_statement_list (exp1, &body_list);
 
+  /* sf.call_parent->pedigree.sync = worker->pedigree.sync.  */
+  exp1 = build2 (MODIFY_EXPR, void_type_node, pedigree_parent_sync,
+		 w_pedigree_sync);
+  append_to_statement_list (exp1, &body_list);
+
   /* sf.call_parent->pedigree.parent = worker->pedigree.parent.  */
   exp1 = build2 (MODIFY_EXPR, void_type_node, pedigree_parent_parent,
 		 w_pedigree_parent);
@@ -917,6 +931,11 @@ cilk_install_body_pedigree_operations (tree frame_ptr)
 
   /* sf->worker.pedigree.rank = 0.  */
   exp1 = build2 (MODIFY_EXPR, void_type_node, w_pedigree_rank, 
+		 build_zero_cst (uint64_type_node));
+  append_to_statement_list (exp1, &body_list);
+
+  /* sf->worker.pedigree.sync = 0.  */
+  exp1 = build2 (MODIFY_EXPR, void_type_node, w_pedigree_sync, 
 		 build_zero_cst (uint64_type_node));
   append_to_statement_list (exp1, &body_list);
 

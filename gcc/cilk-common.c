@@ -167,6 +167,7 @@ cilk_init_builtins (void)
   /* Now build the following __cilkrts_pedigree struct:
      struct __cilkrts_pedigree {
         uint64_t rank;
+        uint64_t sync;
         struct __cilkrts_pedigree *parent;
       }  */
 
@@ -174,6 +175,8 @@ cilk_init_builtins (void)
   tree pedigree_ptr  = build_pointer_type (pedigree_type);
   tree field = add_field ("rank", uint64_type_node, NULL_TREE);
   cilk_trees[CILK_TI_PEDIGREE_RANK] = field;
+  field = add_field ("sync", uint64_type_node, field);
+  cilk_trees[CILK_TI_PEDIGREE_SYNC] = field;
   field = add_field ("parent", pedigree_ptr, field);
   cilk_trees[CILK_TI_PEDIGREE_PARENT] = field;
   finish_builtin_struct (pedigree_type, "__cilkrts_pedigree_GCC", field,
@@ -471,7 +474,8 @@ expand_cilk_sync (void)
 	   if (sf.flags & CILK_FRAME_EXCEPTING) 
 	     __cilkrts_rethrow (&sf); 
       }
-      sf.worker->pedigree.rank = sf.worker->pedigree.rank + 1;  */
+      sf.worker->pedigree.rank = sf.worker->pedigree.rank + 1;  
+*/
 
   tree flags = cilk_dot (frame, CILK_TI_FRAME_FLAGS, false);
   
@@ -522,10 +526,21 @@ expand_cilk_sync (void)
 				    build_one_cst (TREE_TYPE (w_ped_rank)));
   incr_ped_rank = fold_build2 (MODIFY_EXPR, void_type_node, w_ped_rank,
 			       incr_ped_rank);
+
+  tree w_ped_sync = cilk_dot (unshare_expr (worker_pedigree), 
+			      CILK_TI_PEDIGREE_SYNC, false);
+  tree incr_ped_sync = fold_build2 (PLUS_EXPR, TREE_TYPE (w_ped_sync),
+				    w_ped_sync,
+				    build_one_cst (TREE_TYPE (w_ped_sync)));
+  incr_ped_sync = fold_build2 (MODIFY_EXPR, void_type_node, w_ped_sync,
+			       incr_ped_sync);
+
   tree ret_sync_exp = alloc_stmt_list ();
   append_to_statement_list (assign_pedigree, &ret_sync_exp);
   append_to_statement_list (sync, &ret_sync_exp);
   append_to_statement_list (incr_ped_rank, &ret_sync_exp);
+  append_to_statement_list (incr_ped_sync, &ret_sync_exp);
+  //
   return ret_sync_exp;
 }
 

@@ -94,6 +94,7 @@ void save_pedigree_leaf_from_user_worker(__cilkrts_worker *w)
     // fails because the pedigree chain not restored correctly. 
     // CILK_ASSERT(w->l->original_pedigree_leaf->next == w->pedigree.parent);
     w->l->original_pedigree_leaf->rank = w->pedigree.rank;
+    w->l->original_pedigree_leaf->sync = w->pedigree.sync;
 
     // Save that leaf pointer back into tls.
     __cilkrts_set_tls_pedigree_leaf(w->l->original_pedigree_leaf);

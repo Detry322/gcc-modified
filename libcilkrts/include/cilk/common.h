@@ -363,6 +363,9 @@ typedef struct __cilkrts_pedigree
 {
     /** Rank at start of spawn helper. Saved rank for spawning functions */
     uint64_t rank;
+
+    /** Sync rank at start of spawn helper. Saved sync rank for spawning functions */
+    uint64_t sync;
                                          
     /** Link to next in chain */
     const struct __cilkrts_pedigree *parent;

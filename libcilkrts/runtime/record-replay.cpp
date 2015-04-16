@@ -180,6 +180,7 @@ typedef struct replay_entry_t
             // a match
             if (node->rank != m_reverse_pedigree[i])
                 return false;
+            // TODO: we don't handle syncs
             node = node->parent;
             i++;
         }

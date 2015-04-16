@@ -180,6 +180,7 @@ __CILKRTS_INLINE void __cilk_fake_detach(__cilkrts_stack_frame *sf)
     sf->spawn_helper_pedigree = w->pedigree;
     parent->parent_pedigree = w->pedigree;
     w->pedigree.rank = 0;
+    w->pedigree.sync = 0;
     w->pedigree.parent = &sf->spawn_helper_pedigree;
 
     /* Push parent onto the task deque */
