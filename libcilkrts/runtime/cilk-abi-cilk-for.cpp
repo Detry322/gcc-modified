@@ -149,7 +149,7 @@ void call_cilk_for_loop_body(count_t low, count_t high,
     __cilkrts_pedigree loop_leaf_pedigree;
 
     loop_leaf_pedigree.rank = (uint64_t)low;
-    loop_leaf_pedigree.sync = (uint64_t)-1;
+    loop_leaf_pedigree.sync = (uint64_t)0;
     loop_leaf_pedigree.parent = loop_root_pedigree;
 
     // The worker's pedigree always starts with a rank of 0
