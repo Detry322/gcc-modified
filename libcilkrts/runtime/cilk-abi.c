@@ -141,6 +141,15 @@ void enter_frame_fast_internal(__cilkrts_stack_frame *sf, uint32_t version)
 {
     __cilkrts_worker *w = __cilkrts_get_tls_worker_fast();
     sf->flags = version << 24;
+    
+    sf->parent_pedigree.rank = w->pedigree.rank;
+    sf->parent_pedigree.sync = w->pedigree.sync;
+    sf->parent_pedigree.parent = w->pedigree.parent;
+
+    w->pedigree.rank += 13;
+    w->pedigree.sync = 42;
+    w->pedigree.parent = &sf->parent_pedigree;
+
     sf->call_parent = w->current_stack_frame;
     sf->worker = w;
     w->current_stack_frame = sf;
