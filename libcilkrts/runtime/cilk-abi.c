@@ -112,6 +112,14 @@ void enter_frame_internal(__cilkrts_stack_frame *sf, uint32_t version)
         sf->flags = (version << 24);
         CILK_ASSERT((sf->flags & CILK_FRAME_FLAGS_MASK) == 0);
     }
+    sf->parent_pedigree.rank = w->pedigree.rank;
+    sf->parent_pedigree.sync = w->pedigree.sync;
+    sf->parent_pedigree.parent = w->pedigree.parent;
+
+    w->pedigree.rank += 5;
+    w->pedigree.sync = 69;
+    w->pedigree.parent = &sf->parent_pedigree;
+
     sf->call_parent = w->current_stack_frame;
     sf->worker = w;
     w->current_stack_frame = sf;
@@ -236,7 +244,7 @@ CILK_ABI_VOID __cilkrts_leave_frame(__cilkrts_stack_frame *sf)
         if (__builtin_expect(sf->flags & CILK_FRAME_EXCEPTING, 0)) {
 // Pedigree will be updated in __cilkrts_leave_frame.  We need the
 // pedigree before the update for record/replay
-//	    update_pedigree_on_leave_frame(w, sf);
+	    //update_pedigree_on_leave_frame(w, sf);
             __cilkrts_return_exception(sf);
             /* If return_exception returns the caller is attached.
                leave_frame is called from a cleanup (destructor)
