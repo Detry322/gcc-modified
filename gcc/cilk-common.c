@@ -514,11 +514,11 @@ expand_cilk_sync (void)
   append_to_statement_list (setjmp_expr, &sync_list);
   tree sync = fold_build3 (COND_EXPR, void_type_node, unsynched, sync_list,
 			   build_empty_stmt (EXPR_LOCATION (unsynched)));
-  tree parent_pedigree = cilk_dot (frame, CILK_TI_FRAME_PEDIGREE, false);
+  //tree parent_pedigree = cilk_dot (frame, CILK_TI_FRAME_PEDIGREE, false);
   tree worker = cilk_dot (frame, CILK_TI_FRAME_WORKER, false);
   tree worker_pedigree = cilk_arrow (worker, CILK_TI_WORKER_PEDIGREE, false);
-  tree assign_pedigree = fold_build2 (MODIFY_EXPR, void_type_node,
-				      parent_pedigree, worker_pedigree);
+// tree assign_pedigree = fold_build2 (MODIFY_EXPR, void_type_node,
+//				      parent_pedigree, worker_pedigree);
   tree w_ped_rank = cilk_dot (unshare_expr (worker_pedigree), 
 			      CILK_TI_PEDIGREE_RANK, false);
   tree incr_ped_rank = fold_build2 (PLUS_EXPR, TREE_TYPE (w_ped_rank),
@@ -536,7 +536,7 @@ expand_cilk_sync (void)
 			       incr_ped_sync);
 
   tree ret_sync_exp = alloc_stmt_list ();
-  append_to_statement_list (assign_pedigree, &ret_sync_exp);
+//append_to_statement_list (assign_pedigree, &ret_sync_exp);
   append_to_statement_list (sync, &ret_sync_exp);
   append_to_statement_list (incr_ped_rank, &ret_sync_exp);
   append_to_statement_list (incr_ped_sync, &ret_sync_exp);

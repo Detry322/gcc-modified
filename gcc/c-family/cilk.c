@@ -143,7 +143,7 @@ create_cilk_function_exit (tree frame, bool detaches, bool needs_sync)
 {
   tree epi = alloc_stmt_list ();
 
-  if (needs_sync && 0) 
+  if (needs_sync) 
     append_to_statement_list (build_cilk_sync (), &epi);
   tree func_ptr = build1 (ADDR_EXPR, cilk_frame_ptr_type_decl, frame);
   tree pop_frame = build_call_expr (cilk_pop_fndecl, 1, func_ptr);
