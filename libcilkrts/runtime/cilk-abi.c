@@ -114,10 +114,12 @@ void enter_frame_internal(__cilkrts_stack_frame *sf, uint32_t version)
     }
     sf->parent_pedigree.rank = w->pedigree.rank;
     sf->parent_pedigree.sync = w->pedigree.sync;
+    sf->parent_pedigree.call = w->pedigree.call;
     sf->parent_pedigree.parent = w->pedigree.parent;
 
-    w->pedigree.rank += 5;
-    w->pedigree.sync = 69;
+    w->pedigree.rank = 0;
+    w->pedigree.sync = 0;
+    w->pedigree.call = 0;
     w->pedigree.parent = &sf->parent_pedigree;
 
     sf->call_parent = w->current_stack_frame;
@@ -144,10 +146,12 @@ void enter_frame_fast_internal(__cilkrts_stack_frame *sf, uint32_t version)
     
     sf->parent_pedigree.rank = w->pedigree.rank;
     sf->parent_pedigree.sync = w->pedigree.sync;
+    sf->parent_pedigree.call = w->pedigree.call;
     sf->parent_pedigree.parent = w->pedigree.parent;
 
-    w->pedigree.rank += 13;
-    w->pedigree.sync = 42;
+    w->pedigree.rank = 0;
+    w->pedigree.sync = 0;
+    w->pedigree.call = 0;
     w->pedigree.parent = &sf->parent_pedigree;
 
     sf->call_parent = w->current_stack_frame;

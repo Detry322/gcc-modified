@@ -2234,6 +2234,7 @@ static void do_sync(__cilkrts_worker *w, full_frame *ff,
                 {
                     sf->parent_pedigree.rank = w->pedigree.rank;
                     sf->parent_pedigree.sync = w->pedigree.sync;
+                    sf->parent_pedigree.call = w->pedigree.call;
                     sf->parent_pedigree.parent = w->pedigree.parent;
 
                     // Note that the pedigree rank needs to be updated
@@ -2820,6 +2821,7 @@ __cilkrts_worker *make_worker(global_state_t *g,
 
     w->pedigree.rank = 0;    // Initial rank is 0
     w->pedigree.sync = 0;    // Initial sync rank is 0
+    w->pedigree.call = 0;    // Initial call rank is 0
     w->pedigree.parent = NULL;
 
     w->l = (local_state *)__cilkrts_malloc(sizeof(*w->l));

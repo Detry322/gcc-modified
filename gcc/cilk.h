@@ -59,6 +59,7 @@ enum cilk_tree_index  {
   /* __cilkrts_pedigree struct fields.  */
   CILK_TI_PEDIGREE_RANK,              /* pedigree->rank.  */
   CILK_TI_PEDIGREE_SYNC,              /* pedigree->sync.  */
+  CILK_TI_PEDIGREE_CALL,              /* pedigree->call.  */
   CILK_TI_PEDIGREE_PARENT,            /* pedigree->parent.  */
   
   /* Types.  */

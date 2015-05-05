@@ -168,6 +168,7 @@ cilk_init_builtins (void)
      struct __cilkrts_pedigree {
         uint64_t rank;
         uint64_t sync;
+        uint64_t call;
         struct __cilkrts_pedigree *parent;
       }  */
 
@@ -177,6 +178,8 @@ cilk_init_builtins (void)
   cilk_trees[CILK_TI_PEDIGREE_RANK] = field;
   field = add_field ("sync", uint64_type_node, field);
   cilk_trees[CILK_TI_PEDIGREE_SYNC] = field;
+  field = add_field ("parent", pedigree_ptr, field);
+  cilk_trees[CILK_TI_PEDIGREE_CALL] = field;
   field = add_field ("parent", pedigree_ptr, field);
   cilk_trees[CILK_TI_PEDIGREE_PARENT] = field;
   finish_builtin_struct (pedigree_type, "__cilkrts_pedigree_GCC", field,

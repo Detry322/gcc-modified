@@ -154,11 +154,13 @@ create_cilk_function_exit (tree frame, bool detaches, bool needs_sync)
   tree worker_pedigree = cilk_arrow (worker, CILK_TI_WORKER_PEDIGREE, 1);
   tree w_pedigree_rank = cilk_dot (worker_pedigree, CILK_TI_PEDIGREE_RANK, 0);
   tree w_pedigree_sync = cilk_dot (worker_pedigree, CILK_TI_PEDIGREE_SYNC, 0);
+  tree w_pedigree_call = cilk_dot (worker_pedigree, CILK_TI_PEDIGREE_CALL, 0);
   tree w_pedigree_parent = cilk_dot (worker_pedigree, 
 				     CILK_TI_PEDIGREE_PARENT, 0);
   tree pedigree = cilk_dot (frame, CILK_TI_FRAME_PEDIGREE, 0);
   tree pedigree_rank = cilk_dot (pedigree, CILK_TI_PEDIGREE_RANK, 0);
   tree pedigree_sync = cilk_dot (pedigree, CILK_TI_PEDIGREE_SYNC, 0);
+  tree pedigree_call = cilk_dot (pedigree, CILK_TI_PEDIGREE_CALL, 0);
   tree parent_pedigree = cilk_dot (pedigree, CILK_TI_PEDIGREE_PARENT, 0);
 
   tree exp1 = build2 (MODIFY_EXPR, void_type_node, 
@@ -168,30 +170,17 @@ create_cilk_function_exit (tree frame, bool detaches, bool needs_sync)
   exp1 = build2 (MODIFY_EXPR, void_type_node, w_pedigree_sync,
 		     pedigree_sync);
   append_to_statement_list (exp1, &epi);
+  
+  exp1 = build2 (MODIFY_EXPR, void_type_node, w_pedigree_call,
+		     pedigree_call);
+  append_to_statement_list (exp1, &epi);
 
   exp1 = build2 (MODIFY_EXPR, void_type_node, w_pedigree_parent,
 		 parent_pedigree);
   append_to_statement_list (exp1, &epi);
 
-
   tree set_current = build2 (MODIFY_EXPR, void_type_node, current, parent);
 
-  // Increase sync rank
-  // Here we need to pop the pedigree added from enter_frame
-  //
-  /*
-  tree worker_pedigree = cilk_arrow (worker, CILK_TI_WORKER_PEDIGREE, false);
-  tree w_ped_sync = cilk_dot (unshare_expr (worker_pedigree), 
-			      CILK_TI_PEDIGREE_SYNC, false);
-  tree incr_ped_sync = fold_build2 (PLUS_EXPR, TREE_TYPE (w_ped_sync),
-				    w_ped_sync,
-				    build_one_cst (TREE_TYPE (w_ped_sync)));
-  incr_ped_sync = fold_build2 (MODIFY_EXPR, void_type_node, w_ped_sync,
-			       incr_ped_sync);
-  append_to_statement_list(incr_ped_sync, &epi);
-  */
-  //end
-  
   append_to_statement_list (set_current, &epi);
   append_to_statement_list (pop_frame, &epi);
   tree call = build_call_expr (cilk_leave_fndecl, 1, func_ptr);
@@ -920,6 +909,7 @@ cilk_install_body_pedigree_operations (tree frame_ptr)
   tree enter_frame = build_call_expr (cilk_enter_fast_fndecl, 1, frame_ptr); 
   append_to_statement_list (enter_frame, &body_list);
   return body_list;
+  //WE RETURN HERE SO THE FOLLOWING IS DEAD CODE
   
   tree parent = cilk_arrow (frame_ptr, CILK_TI_FRAME_PARENT, 0);
   tree worker = cilk_arrow (frame_ptr, CILK_TI_FRAME_WORKER, 0);

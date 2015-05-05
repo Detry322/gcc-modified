@@ -150,11 +150,13 @@ void call_cilk_for_loop_body(count_t low, count_t high,
 
     loop_leaf_pedigree.rank = (uint64_t)low;
     loop_leaf_pedigree.sync = (uint64_t)0;
+    loop_leaf_pedigree.call = (uint64_t)0;
     loop_leaf_pedigree.parent = loop_root_pedigree;
 
     // The worker's pedigree always starts with a rank of 0
     w->pedigree.rank = 0;
     w->pedigree.sync = 0;
+    w->pedigree.call = 0;
     w->pedigree.parent = &loop_leaf_pedigree;
 
     // Call the compiler generated cilk_for loop body lambda function
