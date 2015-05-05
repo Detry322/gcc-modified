@@ -178,7 +178,7 @@ cilk_init_builtins (void)
   cilk_trees[CILK_TI_PEDIGREE_RANK] = field;
   field = add_field ("sync", uint64_type_node, field);
   cilk_trees[CILK_TI_PEDIGREE_SYNC] = field;
-  field = add_field ("parent", pedigree_ptr, field);
+  field = add_field ("call", uint64_type_node, field);
   cilk_trees[CILK_TI_PEDIGREE_CALL] = field;
   field = add_field ("parent", pedigree_ptr, field);
   cilk_trees[CILK_TI_PEDIGREE_PARENT] = field;
