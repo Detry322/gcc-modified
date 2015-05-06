@@ -119,7 +119,7 @@ void enter_frame_internal(__cilkrts_stack_frame *sf, uint32_t version)
 
     w->pedigree.rank = 0;
     w->pedigree.sync = 0;
-    w->pedigree.call = 0;
+    w->pedigree.call = 1;
     w->pedigree.parent = &sf->parent_pedigree;
 
     sf->call_parent = w->current_stack_frame;
@@ -151,7 +151,7 @@ void enter_frame_fast_internal(__cilkrts_stack_frame *sf, uint32_t version)
 
     w->pedigree.rank = 0;
     w->pedigree.sync = 0;
-    w->pedigree.call = 0;
+    w->pedigree.call = 2;
     w->pedigree.parent = &sf->parent_pedigree;
 
     sf->call_parent = w->current_stack_frame;
