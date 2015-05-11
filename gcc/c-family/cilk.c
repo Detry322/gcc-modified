@@ -177,16 +177,14 @@ create_cilk_function_exit (tree frame, bool detaches, bool needs_sync)
   append_to_statement_list (exp1, &epi);
 
 
-  /*
-  tree w_ped_call = cilk_dot (unshare_expr (worker_pedigree), 
-			      CILK_TI_PEDIGREE_CALL, false);
-  tree incr_ped_call = fold_build2 (PLUS_EXPR, TREE_TYPE (w_ped_call),
-				    w_ped_call,
-				    build_one_cst (TREE_TYPE (w_ped_call)));
-  incr_ped_call = fold_build2 (MODIFY_EXPR, void_type_node, w_ped_call,
-			       incr_ped_call);
-  append_to_statement_list (incr_ped_call, &epi);
-  */
+  tree w_ped_rank = cilk_dot (unshare_expr (worker_pedigree), 
+			      CILK_TI_PEDIGREE_RANK, false);
+  tree incr_ped_rank = fold_build2 (PLUS_EXPR, TREE_TYPE (w_ped_rank),
+				    w_ped_rank,
+				    build_one_cst (TREE_TYPE (w_ped_rank)));
+  incr_ped_rank = fold_build2 (MODIFY_EXPR, void_type_node, w_ped_rank,
+			       incr_ped_rank);
+  append_to_statement_list (incr_ped_rank, &epi);
 
 
   exp1 = build2 (MODIFY_EXPR, void_type_node, w_pedigree_parent,
