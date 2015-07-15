@@ -284,6 +284,12 @@ __cilkrts_pedigree __cilkrts_get_pedigree(void)
     return __cilkrts_get_pedigree_internal(__cilkrts_get_tls_worker());    
 }
 
+__CILKRTS_INLINE
+__cilkrts_pedigree __cilkrts_get_pedigree_work(__cilkrts_worker* worker_ptr) 
+{
+    return __cilkrts_get_pedigree_internal(worker_ptr);    
+}
+
 /** Context used by __cilkrts_get_pedigree_info.
  *
  *  @deprecated
