@@ -18,6 +18,7 @@ ___cilkrts_get_force_reduce
 ___cilkrts_get_nworkers
 ___cilkrts_get_pedigree_info
 ___cilkrts_get_pedigree_internal
+___cilkrts_get_pedigree_internal_ptr
 ___cilkrts_get_sf
 ___cilkrts_get_stack_size
 ___cilkrts_get_tls_worker

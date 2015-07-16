@@ -259,6 +259,9 @@ CILK_API(int) __cilkrts_set_seh_callback(__cilkrts_pfn_seh_callback pfn);
 CILK_API(__cilkrts_pedigree)
 __cilkrts_get_pedigree_internal(__cilkrts_worker *w);
 
+CILK_API(const __cilkrts_pedigree*)
+__cilkrts_get_pedigree_internal_ptr(__cilkrts_worker *w);
+
 /** Support for __cilkrts_bump_worker_rank.
  */
 CILK_API(int)
@@ -285,9 +288,9 @@ __cilkrts_pedigree __cilkrts_get_pedigree(void)
 }
 
 __CILKRTS_INLINE
-__cilkrts_pedigree __cilkrts_get_pedigree_work(__cilkrts_worker* worker_ptr) 
+const __cilkrts_pedigree* __cilkrts_get_pedigree_work_ptr(__cilkrts_worker* worker_ptr) 
 {
-    return __cilkrts_get_pedigree_internal(worker_ptr);    
+    return __cilkrts_get_pedigree_internal_ptr(worker_ptr);    
 }
 
 /** Context used by __cilkrts_get_pedigree_info.

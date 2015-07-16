@@ -84,6 +84,7 @@ CILKABI1
     __cilkrts_enter_frame_fast_1;
     __cilkrts_get_pedigree_info;
     __cilkrts_get_pedigree_internal;
+    __cilkrts_get_pedigree_internal_ptr;
     __cilkrts_get_sf;
     __cilkrts_get_stack_size;
     __cilkrts_get_worker_rank;
