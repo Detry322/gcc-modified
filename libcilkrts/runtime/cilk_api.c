@@ -243,19 +243,6 @@ __cilkrts_get_pedigree_internal(__cilkrts_worker *w)
     }
 }
 
-CILK_API(const __cilkrts_pedigree*)  
-__cilkrts_get_pedigree_internal_ptr(__cilkrts_worker *w)
-{
-    if (NULL != w) {
-	return &w->pedigree;
-    }
-    else {
-	const __cilkrts_pedigree *pedigree =
-            __cilkrts_get_tls_pedigree_leaf(1);
-	return pedigree;
-    }
-}
-
 
 CILK_API_INT __cilkrts_bump_worker_rank_internal(__cilkrts_worker *w)
 {
