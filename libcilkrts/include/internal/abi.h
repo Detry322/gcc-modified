@@ -501,6 +501,7 @@ CILK_ABI_THROWS(void) __cilkrts_rethrow(__cilkrts_stack_frame *sf);
  * @return NULL if this thread is not yet bound to a worker.
  */
 CILK_ABI(__cilkrts_worker_ptr) __cilkrts_get_tls_worker(void);
+CILK_ABI(__cilkrts_worker_ptr) __cilkrts_get_tls_worker_by_id(int);
 
 /**
  * Similar to __cilkrts_get_tls_worker, but assumes that TLS has been

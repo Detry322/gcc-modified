@@ -345,6 +345,7 @@ __CILKRTS_BEGIN_EXTERN_C
     
     /// Fetch the worker out of TLS.
     CILK_ABI(__cilkrts_worker_ptr) __cilkrts_get_tls_worker(void);
+    CILK_ABI(__cilkrts_worker_ptr) __cilkrts_get_tls_worker_by_id(int);
 
     /// void *, defined to work around complaints from the compiler
     /// about using __declspec(nothrow) after the "void *" return type

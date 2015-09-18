@@ -74,6 +74,7 @@
 #include <stdarg.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <global_state.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -156,6 +157,11 @@ CILK_ABI_WORKER_PTR __cilkrts_get_tls_worker()
     else 
         return serial_worker;
     
+}
+
+CILK_ABI_WORKER_PTR __cilkrts_get_tls_worker_by_id(int id)
+{
+    return __cilkrts_get_tls_worker()->g->workers[id];
 }
 
 CILK_ABI_WORKER_PTR __cilkrts_get_tls_worker_fast()
